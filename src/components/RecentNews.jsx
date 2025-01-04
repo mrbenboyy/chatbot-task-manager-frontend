@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaExclamationTriangle, FaSpinner } from 'react-icons/fa'; // Import des icônes
+import { FaExclamationTriangle, FaSpinner } from 'react-icons/fa';
 
 const RecentNews = () => {
     const [news, setNews] = useState([]);
@@ -16,7 +16,7 @@ const RecentNews = () => {
                         params: {
                             country: 'us', // Country for news (e.g., 'fr' for France)
                             apiKey: '1a6000526db741de9c8de377cc6072d5', // Replace with your NewsAPI key
-                            pageSize: 10, // Limit number of news items
+                            pageSize: 15, // Limit number of news items
                         },
                     }
                 );
@@ -38,59 +38,68 @@ const RecentNews = () => {
 
     if (loading) {
         return (
-            <div className="text-center text-gray-500">
-                <FaSpinner className="animate-spin text-2xl inline-block mr-2" />
-                Chargement des actualités...
+            <div className="flex justify-center items-center py-20">
+                <div className="text-gray-600 text-lg flex items-center">
+                    <FaSpinner className="animate-spin text-3xl mr-2" />
+                    Chargement des actualités...
+                </div>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="text-center text-red-500">
-                <FaExclamationTriangle className="inline-block mr-2" />
+            <div className="flex justify-center items-center py-20 text-red-600">
+                <FaExclamationTriangle className="text-3xl mr-2" />
                 {error}
             </div>
         );
     }
 
     return (
-        <div className="bg-gradient-to-r from-gray-800 via-gray-900 to-black p-8 rounded-2xl shadow-2xl space-y-8">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">Actualités récentes</h2>
-            <ul className="space-y-6">
-                {news.map((item, index) => (
-                    <li key={index} className="flex flex-col lg:flex-row gap-6 md:gap-8 items-start border-b border-gray-700 pb-6">
-                        {/* Image of the article */}
-                        {item.urlToImage && (
-                            <img
-                                src={item.urlToImage}
-                                alt={item.title}
-                                className="w-full lg:w-1/3 rounded-xl shadow-md object-cover transition-transform duration-300 hover:scale-105"
-                            />
-                        )}
-
-                        {/* Text content */}
-                        <div className="flex flex-col justify-between space-y-4 w-full lg:w-2/3">
-                            <h3 className="text-xl font-semibold text-white hover:text-blue-400 transition duration-200">
-                                <a
-                                    href={item.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="hover:underline"
-                                >
-                                    {item.title}
-                                </a>
-                            </h3>
-                            <p className="text-sm text-gray-300">{item.description || 'Pas de description disponible.'}</p>
-                            <p className="text-xs text-gray-400 mt-2">
-                                Source: <span className="font-semibold text-gray-300">{item.source.name}</span> | Publié le{' '}
-                                {new Date(item.publishedAt).toLocaleDateString()}
-                            </p>
+        <section className="pb-16 pt-5 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg">
+            <div className="container mx-auto px-6">
+                <h2 className="text-4xl font-semibold text-gray-100 text-center mb-10">
+                    Actualités récentes
+                </h2>
+                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-2">
+                    {news.map((item, index) => (
+                        <div key={index} className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
+                            <div className="overflow-hidden rounded-t-xl">
+                                {item.urlToImage && (
+                                    <img
+                                        src={item.urlToImage}
+                                        alt={item.title}
+                                        className="w-full h-56 object-cover transition duration-300 hover:scale-110"
+                                    />
+                                )}
+                            </div>
+                            <div className="p-6">
+                                <h3 className="text-xl font-bold text-gray-800 mb-4">
+                                    <a
+                                        href={item.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 hover:text-blue-800"
+                                    >
+                                        {item.title}
+                                    </a>
+                                </h3>
+                                <p className="text-gray-600 text-sm mb-4">
+                                    {item.description || 'Pas de description disponible.'}
+                                </p>
+                                <div className="text-xs text-gray-500">
+                                    <span className="font-semibold text-gray-800">
+                                        Source: {item.source.name}
+                                    </span>{' '}
+                                    | Publié le {new Date(item.publishedAt).toLocaleDateString()}
+                                </div>
+                            </div>
                         </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
     );
 };
 

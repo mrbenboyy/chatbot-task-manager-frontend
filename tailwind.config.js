@@ -11,7 +11,7 @@ module.exports = {
     },
     fontFamily: {
       'body': [
-        'Inter',
+        'Poppins',  // Make Poppins the default font for body text
         'ui-sans-serif',
         'system-ui',
         '-apple-system',
@@ -28,7 +28,7 @@ module.exports = {
         'Noto Color Emoji'
       ],
       'sans': [
-        'Inter',
+        'Poppins',  // Make Poppins the default sans-serif font
         'ui-sans-serif',
         'system-ui',
         '-apple-system',
@@ -48,5 +48,3 @@ module.exports = {
   },
   plugins: [],
 }
-
-

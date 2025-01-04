@@ -44,111 +44,107 @@ const ContactUs = () => {
     };
 
     return (
-        <div className="bg-gray-100 min-h-screen">
+        <div className="bg-gray-50 min-h-screen">
+
             {/* En-tête */}
-            <header className="bg-gray-800 text-white text-center pt-32 pb-20">
-                <h1 className="text-4xl font-bold mb-4">Contactez-nous</h1>
-                <p className="text-lg">
+            <header className="bg-gradient-to-r from-pink-500 to-purple-600 text-white text-center pt-32 pb-16 rounded-b-lg shadow-lg">
+                <h1 className="text-5xl font-bold mb-6">Contactez-nous</h1>
+                <p className="text-lg max-w-2xl mx-auto mb-4">
                     Nous aimerions avoir de vos nouvelles. Remplissez le formulaire ci-dessous ou utilisez l'une de nos coordonnées.
                 </p>
             </header>
 
             {/* Section coordonnées */}
             <section className="max-w-6xl mx-auto px-6 py-12 grid gap-8 md:grid-cols-2">
-                <div className="bg-white shadow-lg rounded-lg p-6">
-                    <h2 className="text-2xl font-bold text-blue-600 mb-4">Nos Coordonnées</h2>
-                    <div className="flex items-center mb-4">
-                        <FaPhone className="text-blue-500 text-2xl mr-4" />
-                        <span className="text-gray-700">+212 658 85 05 73</span>
-                    </div>
-                    <div className="flex items-center mb-4">
-                        <FaPhone className="text-blue-500 text-2xl mr-4" />
-                        <span className="text-gray-700">+212 657 46 86 63</span>
-                    </div>
-                    <div className="flex items-center mb-4">
-                        <FaEnvelope className="text-blue-500 text-2xl mr-4" />
-                        <span className="text-gray-700">a.benbouanane@mundiapolis.ma</span>
-                    </div>
-                    <div className="flex items-center mb-4">
-                        <FaEnvelope className="text-blue-500 text-2xl mr-4" />
-                        <span className="text-gray-700">o.chligui@mundiapolis.ma</span>
-                    </div>
-                    <div className="flex items-center mb-4">
-                        <FaMapMarkerAlt className="text-blue-500 text-2xl mr-4" />
-                        <span className="text-gray-700">Deroua, Berrechid</span>
-                    </div>
-                    <div className="flex space-x-4 mt-6">
-                        <a href="https://facebook.com" className="text-blue-600 hover:text-blue-800">
-                            <FaFacebook size={30} />
-                        </a>
-                        <a href="https://twitter.com" className="text-blue-400 hover:text-blue-600">
-                            <FaTwitter size={30} />
-                        </a>
-                        <a href="https://linkedin.com" className="text-blue-700 hover:text-blue-900">
-                            <FaLinkedin size={30} />
-                        </a>
-                        <a href="https://instagram.com" className="text-pink-500 hover:text-pink-700">
-                            <FaInstagram size={30} />
-                        </a>
+                <div className="bg-white shadow-xl rounded-xl p-6">
+                    <h2 className="text-3xl font-bold text-blue-600 mb-4">Nos Coordonnées</h2>
+                    <div className="space-y-6">
+                        {/* Téléphone */}
+                        <div className="flex items-center text-lg text-gray-700 mb-4">
+                            <FaPhone className="text-teal-500 text-3xl mr-4" />
+                            <span>+212 658 85 05 73 <br /> +212 657 46 86 63</span>
+                        </div>
+
+                        {/* Email */}
+                        <div className="flex items-center text-lg text-gray-700 mb-4">
+                            <FaEnvelope className="text-teal-500 text-3xl mr-4" />
+                            <span>a.benbouanane@mundiapolis.ma <br />o.chligui@mundiapolis.ma</span>
+                        </div>
+
+                        {/* Adresse */}
+                        <div className="flex items-center text-lg text-gray-700 mb-4">
+                            <FaMapMarkerAlt className="text-teal-500 text-3xl mr-4" />
+                            <span>Deroua, Berrechid</span>
+                        </div>
+
+                        {/* Réseaux sociaux */}
+                        <div className="flex space-x-6 mt-6">
+                            <a href="https://facebook.com" className="text-blue-600 hover:text-blue-800 transform transition-all duration-300">
+                                <FaFacebook size={32} />
+                            </a>
+                            <a href="https://twitter.com" className="text-blue-400 hover:text-blue-600 transform transition-all duration-300">
+                                <FaTwitter size={32} />
+                            </a>
+                            <a href="https://linkedin.com" className="text-blue-700 hover:text-blue-900 transform transition-all duration-300">
+                                <FaLinkedin size={32} />
+                            </a>
+                            <a href="https://instagram.com" className="text-pink-500 hover:text-pink-700 transform transition-all duration-300">
+                                <FaInstagram size={32} />
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 {/* Formulaire de contact */}
-                <div className="bg-white shadow-lg rounded-lg p-6">
-                    <h2 className="text-2xl font-bold text-blue-600 mb-4">Envoyez-nous un message</h2>
+                <div className="bg-white shadow-xl rounded-xl p-6">
+                    <h2 className="text-3xl font-bold text-blue-600 mb-6">Envoyez-nous un message</h2>
                     {successMessage && <p className="text-green-600 mb-4">{successMessage}</p>}
                     <form onSubmit={handleSubmit}>
                         {/* Nom */}
-                        <div className="mb-4">
-                            <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
-                                Nom complet
-                            </label>
+                        <div className="mb-6">
+                            <label htmlFor="name" className="block text-gray-700 font-medium mb-2">Nom complet</label>
                             <input
                                 type="text"
                                 id="name"
                                 name="name"
                                 value={formData.name}
                                 onChange={handleChange}
-                                className={`w-full p-3 border rounded-lg ${formErrors.name ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring focus:ring-blue-500`}
+                                className={`w-full p-4 border-2 rounded-lg ${formErrors.name ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-teal-500`}
                             />
-                            {formErrors.name && <p className="text-red-500 text-sm">{formErrors.name}</p>}
+                            {formErrors.name && <p className="text-red-500 text-sm mt-2">{formErrors.name}</p>}
                         </div>
 
                         {/* Email */}
-                        <div className="mb-4">
-                            <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
-                                Adresse e-mail
-                            </label>
+                        <div className="mb-6">
+                            <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Adresse e-mail</label>
                             <input
                                 type="email"
                                 id="email"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                className={`w-full p-3 border rounded-lg ${formErrors.email ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring focus:ring-blue-500`}
+                                className={`w-full p-4 border-2 rounded-lg ${formErrors.email ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-teal-500`}
                             />
-                            {formErrors.email && <p className="text-red-500 text-sm">{formErrors.email}</p>}
+                            {formErrors.email && <p className="text-red-500 text-sm mt-2">{formErrors.email}</p>}
                         </div>
 
                         {/* Message */}
-                        <div className="mb-4">
-                            <label htmlFor="message" className="block text-gray-700 font-medium mb-2">
-                                Votre message
-                            </label>
+                        <div className="mb-6">
+                            <label htmlFor="message" className="block text-gray-700 font-medium mb-2">Votre message</label>
                             <textarea
                                 id="message"
                                 name="message"
                                 rows="4"
                                 value={formData.message}
                                 onChange={handleChange}
-                                className={`w-full p-3 border rounded-lg ${formErrors.message ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring focus:ring-blue-500`}
+                                className={`w-full p-4 border-2 rounded-lg ${formErrors.message ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-teal-500`}
                             ></textarea>
-                            {formErrors.message && <p className="text-red-500 text-sm">{formErrors.message}</p>}
+                            {formErrors.message && <p className="text-red-500 text-sm mt-2">{formErrors.message}</p>}
                         </div>
 
                         <button
                             type="submit"
-                            className="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-all"
+                            className="bg-teal-600 text-white py-3 px-8 rounded-lg hover:bg-teal-700 transition-all duration-300"
                         >
                             Envoyer
                         </button>

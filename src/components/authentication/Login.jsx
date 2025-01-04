@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaEnvelope, FaLock } from 'react-icons/fa'; // Icons from react-icons
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 function Login() {
   const navigate = useNavigate();
 
-  // State hooks to manage input values and errors
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -23,71 +22,69 @@ function Login() {
   };
 
   return (
-    <section className="bg-gradient-to-r from-purple-600 to-blue-700 pt-10 pb-24">
+    <section className="bg-gradient-to-r from-indigo-600 to-blue-800 pt-10">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full bg-white/80 rounded-lg shadow-xl md:mt-0 sm:max-w-md xl:p-0">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-2xl font-bold leading-tight text-center text-gray-900">
-              Connectez-vous à votre compte
-            </h1>
+        <div className="w-full bg-white shadow-xl rounded-xl p-8 max-w-md">
+          <h1 className="text-3xl font-semibold text-center text-gray-900 mb-8">
+            Connectez-vous à votre compte
+          </h1>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              {/* Email input */}
-              <div>
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 flex items-center">
-                  <FaEnvelope className="mr-2 text-gray-500" />
-                  Votre email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  placeholder="name@company.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Email Input */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 flex items-center">
+                <FaEnvelope className="text-gray-400 mr-2" />
+                Votre email
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-2 w-full p-4 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500"
+                placeholder="name@company.com"
+                required
+              />
+            </div>
 
-              {/* Password input */}
-              <div>
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 flex items-center">
-                  <FaLock className="mr-2 text-gray-500" />
-                  Mot de passe
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                  placeholder="••••••••"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
+            {/* Password Input */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 flex items-center">
+                <FaLock className="text-gray-400 mr-2" />
+                Mot de passe
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-2 w-full p-4 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500"
+                placeholder="••••••••"
+                required
+              />
+            </div>
 
-              {/* Error message */}
-              {error && <div className="text-red-600 text-sm">{error}</div>}
+            {/* Error Message */}
+            {error && <div className="text-red-600 text-sm text-center">{error}</div>}
 
-              {/* Submit button */}
-              <button
-                type="submit"
-                className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Se connecter
-              </button>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white p-4 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300"
+            >
+              Se connecter
+            </button>
 
-              {/* Signup link */}
-              <p className="text-sm font-light text-center text-gray-600">
-                Vous n’avez pas encore de compte ?{' '}
-                <Link to="/register" className="font-medium text-blue-600 hover:underline">
-                  S'inscrire
-                </Link>
-              </p>
-            </form>
-          </div>
+            {/* Signup Link */}
+            <p className="text-sm font-light text-center text-gray-600">
+              Vous n’avez pas encore de compte ?{' '}
+              <Link to="/register" className="font-medium text-blue-600 hover:underline">
+                S'inscrire
+              </Link>
+            </p>
+          </form>
         </div>
       </div>
     </section>

@@ -40,8 +40,8 @@ const TaskStats = ({ tasks }) => {
             {
                 label: "Tâches par priorité",
                 data: [priorityCounts.Low, priorityCounts.Medium, priorityCounts.High],
-                backgroundColor: ["#4CAF50", "#FFC107", "#F44336"],  // Couleurs modernes
-                hoverBackgroundColor: ["#81C784", "#FFD54F", "#FF7961"], // Hover
+                backgroundColor: ["#66BB6A", "#FFEB3B", "#EF5350"], // Couleurs modernes et harmonieuses
+                hoverBackgroundColor: ["#81C784", "#FFEE58", "#FF7043"], // Hover
                 borderColor: "#fff",
                 borderWidth: 2,
             },
@@ -55,23 +55,23 @@ const TaskStats = ({ tasks }) => {
             {
                 label: "Tâches par statut",
                 data: [statusCounts.Pending, statusCounts.Ongoing, statusCounts.Completed],
-                backgroundColor: ["#FF9800", "#2196F3", "#4CAF50"],  // Couleurs modernes
-                hoverBackgroundColor: ["#FFB74D", "#64B5F6", "#81C784"], // Hover
-                borderRadius: 10,
+                backgroundColor: ["#FF7043", "#42A5F5", "#66BB6A"],  // Couleurs modernes
+                hoverBackgroundColor: ["#FF8A65", "#64B5F6", "#81C784"], // Hover
+                borderRadius: 12,
             },
         ],
     };
 
-    // Options pour le graphique
+    // Options pour les graphiques
     const options = {
         responsive: true,
         plugins: {
             legend: {
                 position: "bottom",
                 labels: {
-                    color: "#333",  // Couleur du texte de la légende
+                    color: "#333", // Couleur du texte de la légende
                     font: {
-                        size: 14,
+                        size: 10, // Taille de la police réduite pour la légende
                         family: "'Inter', sans-serif",
                     },
                 },
@@ -82,7 +82,7 @@ const TaskStats = ({ tasks }) => {
                 ticks: {
                     color: "#333",
                     font: {
-                        size: 12,
+                        size: 10, // Taille des textes sur l'axe X plus petit
                         family: "'Inter', sans-serif",
                     },
                 },
@@ -94,12 +94,12 @@ const TaskStats = ({ tasks }) => {
                 ticks: {
                     color: "#333",
                     font: {
-                        size: 12,
+                        size: 10, // Taille des textes sur l'axe Y plus petit
                         family: "'Inter', sans-serif",
                     },
                 },
                 grid: {
-                    color: "#e0e0e0",  // Légères lignes de grille
+                    color: "#e0e0e0", // Légères lignes de grille
                     lineWidth: 1,
                 },
             },
@@ -107,21 +107,25 @@ const TaskStats = ({ tasks }) => {
     };
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
             {/* Graphique en camembert */}
-            <div className="bg-white/90 p-6 shadow-lg rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900 text-center">
+            <div className="bg-white/90 p-6 shadow-xl rounded-xl transition-all duration-300 hover:shadow-2xl">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 text-center">
                     Répartition par priorité
                 </h3>
-                <Pie data={priorityData} options={options} />
+                <div className="w-full" style={{ maxWidth: "350px", height: "350px" }}>
+                    <Pie data={priorityData} options={options} />
+                </div>
             </div>
 
             {/* Graphique en barres */}
-            <div className="bg-white/90 p-6 shadow-lg rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900 text-center">
+            <div className="bg-white/90 p-6 shadow-xl rounded-xl transition-all duration-300 hover:shadow-2xl">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 text-center">
                     Répartition par statut
                 </h3>
-                <Bar data={statusData} options={options} />
+                <div className="w-full" style={{ maxWidth: "350px", height: "350px" }}>
+                    <Bar data={statusData} options={options} />
+                </div>
             </div>
         </div>
     );

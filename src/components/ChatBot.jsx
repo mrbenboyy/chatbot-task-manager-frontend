@@ -77,7 +77,7 @@ const ChatBot = ({ onTaskAdded }) => {
     <>
       {/* Icône pour ouvrir/fermer le chatbot avec effet de focus */}
       <div
-        className="fixed bottom-4 right-4 bg-white/80 text-black p-4 rounded-full shadow-lg cursor-pointer transform transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-2xl hover:ring-4 hover:ring-blue-500 animate-bounce"
+        className="fixed bottom-4 right-4 bg-gray-900 text-white p-4 rounded-full shadow-lg cursor-pointer transform transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-2xl hover:ring-4 hover:ring-blue-500 animate-bounce"
         onClick={() => setIsOpen(!isOpen)}
       >
         <FaRobot size={24} />
@@ -85,9 +85,9 @@ const ChatBot = ({ onTaskAdded }) => {
 
       {/* Chatbot en tant que fenêtre fixe/modale */}
       {isOpen && (
-        <div className="fixed bottom-0 right-4 bg-white shadow-lg w-full max-w-sm h-96 flex flex-col border border-gray-300 rounded-lg transition-transform transform duration-300 ease-in-out">
+        <div className="fixed bottom-0 right-4 bg-white shadow-lg w-full max-w-sm h-96 flex flex-col border border-gray-200 rounded-lg transition-transform transform duration-300 ease-in-out scale-in-fwd">
           {/* Header du chatbot */}
-          <div className="flex justify-between items-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-t-lg">
+          <div className="flex justify-between items-center bg-gray-900 text-white px-4 py-2 rounded-t-lg">
             <h2 className="text-lg font-semibold">ChatBot</h2>
             <button onClick={handleClose} className="hover:text-gray-200">
               <FaTimes size={20} />
@@ -95,17 +95,22 @@ const ChatBot = ({ onTaskAdded }) => {
           </div>
 
           {/* Zone de discussion */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`p-3 mb-2 rounded-lg ${msg.isBot ? "bg-gray-100 text-gray-800" : "bg-blue-500 text-white"}`}
+                className={`p-3 mb-2 rounded-lg ${
+                  msg.isBot
+                    ? "bg-gray-200 text-gray-700"
+                    : "bg-blue-500 text-white"
+                }`}
                 style={{
                   textAlign: msg.isBot ? "left" : "right", // Alignement du texte
                   maxWidth: "80%", // Limiter la largeur des messages
                   alignSelf: msg.isBot ? "flex-start" : "flex-end", // Positionner le message à gauche ou à droite
                   marginRight: msg.isBot ? "auto" : "0", // Pour l'utilisateur, on met une marge à gauche
                   marginLeft: msg.isBot ? "0" : "auto", // Pour le bot, on met une marge à droite
+                  borderRadius: "20px", // Coins arrondis
                 }}
               >
                 {msg.text}
@@ -115,17 +120,17 @@ const ChatBot = ({ onTaskAdded }) => {
           </div>
 
           {/* Champ d'entrée */}
-          <div className="flex items-center border-t border-gray-300 p-2">
+          <div className="flex items-center border-t border-gray-200 p-3">
             <input
               type="text"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               placeholder="Écrivez un message..."
-              className="flex-grow p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
             />
             <button
               onClick={handleSendMessage}
-              className="bg-blue-500 text-white p-3 ml-2 rounded-lg hover:bg-blue-600 flex items-center justify-center transform transition-all duration-200 hover:scale-110"
+              className="bg-blue-600 text-white p-3 ml-2 rounded-lg hover:bg-blue-700 transform transition-all duration-200 hover:scale-105"
             >
               <IoSend size={20} />
             </button>

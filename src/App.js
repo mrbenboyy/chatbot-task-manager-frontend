@@ -14,7 +14,7 @@ import ContactUs from "./components/ContactUs";
 
 function App() {
   return (
-    <>
+    <div className="font-body">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -40,7 +40,7 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
       </Routes>
       <Footer />
-    </>
+    </div>
   );
 }
 
