@@ -120,6 +120,22 @@ const Dashboard = () => {
     }
   };
 
+  // Filtrage des tâches
+  const filteredTasks = tasks.filter((task) => {
+    // Filtre par titre
+    const matchesTitle = task.title.toLowerCase().includes(searchTitle.toLowerCase());
+
+    // Filtre par priorité
+    const matchesPriority = filterPriority ? task.priority === filterPriority : true;
+
+    // Filtre par date
+    const matchesDate = filterDate ? new Date(task.dueDate).toLocaleDateString() === new Date(filterDate).toLocaleDateString() : true;
+
+    // Retourne la tâche si elle satisfait tous les filtres
+    return matchesTitle && matchesPriority && matchesDate;
+  });
+
+
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -228,10 +244,11 @@ const Dashboard = () => {
       {tasks.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 bg-gradient-to-b from-white/80 via-gray-100 to-gray-200 rounded-lg lg:grid-cols-3 xl:grid-cols-3 gap-8 p-4">
           {/* Catégorie En Attente */}
+          {/* Catégorie En Attente */}
           <div>
             <h2 className="font-semibold text-xl mb-4 text-blue-600">En Attente</h2>
             <div className="space-y-4">
-              {tasks
+              {filteredTasks
                 .filter((task) => task.status === "Pending")
                 .map((task) => (
                   <motion.div
@@ -284,11 +301,12 @@ const Dashboard = () => {
             </div>
           </div>
 
+
           {/* Catégorie En Cours */}
           <div>
             <h2 className="font-semibold text-xl mb-4 text-yellow-600">En Cours</h2>
             <div className="space-y-4">
-              {tasks
+              {filteredTasks
                 .filter((task) => task.status === "Ongoing")
                 .map((task) => (
                   <motion.div
@@ -345,7 +363,7 @@ const Dashboard = () => {
           <div>
             <h2 className="font-semibold text-xl mb-4 text-green-600">Terminées</h2>
             <div className="space-y-4">
-              {tasks
+              {filteredTasks
                 .filter((task) => task.status === "Completed")
                 .map((task) => (
                   <motion.div
