@@ -14,14 +14,13 @@ const AddTask = ({ onTaskAdded }) => {
         setError("");
         setSuccess("");
 
-        // Vérifier que le titre est renseigné
         if (!title) {
             setError("Le titre est requis.");
             return;
         }
 
         try {
-            const token = localStorage.getItem("token"); // Récupérer le token
+            const token = localStorage.getItem("token");
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -57,7 +56,7 @@ const AddTask = ({ onTaskAdded }) => {
     };
 
     return (
-        <div className="bg-white/80 shadow-lg rounded-lg p-5 max-w-md mx-auto mb-5">
+        <div className="bg-white/80 shadow-lg animate__animated animate__slideInUp rounded-lg p-5 w-full mx-auto mb-5">
             <h2 className="text-2xl font-bold mb-4">Ajouter une nouvelle tâche</h2>
             {error && <p className="text-red-500">{error}</p>}
             {success && <p className="text-green-500">{success}</p>}

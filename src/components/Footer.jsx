@@ -14,13 +14,13 @@ function Footer() {
                 {/* Optionnel: Ajout des icônes sociales */}
                 <div className="mt-4 flex justify-center gap-6">
                     <a href="#" className="hover:text-blue-400 transition-colors duration-300">
-                        <i className="fab fa-facebook-f text-xl"></i> {/* Exemple avec FontAwesome */}
+                        <i className="fab fa-facebook-f text-xl"></i>
                     </a>
                     <a href="#" className="hover:text-blue-400 transition-colors duration-300">
-                        <i className="fab fa-twitter text-xl"></i> {/* Exemple avec FontAwesome */}
+                        <i className="fab fa-twitter text-xl"></i>
                     </a>
                     <a href="#" className="hover:text-blue-400 transition-colors duration-300">
-                        <i className="fab fa-instagram text-xl"></i> {/* Exemple avec FontAwesome */}
+                        <i className="fab fa-instagram text-xl"></i>
                     </a>
                 </div>
             </div>

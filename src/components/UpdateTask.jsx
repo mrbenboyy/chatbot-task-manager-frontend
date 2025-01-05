@@ -16,7 +16,7 @@ const UpdateTask = ({ task, onTaskUpdated, onCancel }) => {
         setSuccess("");
 
         try {
-            const token = localStorage.getItem("token"); // Récupérer le token
+            const token = localStorage.getItem("token");
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -38,14 +38,14 @@ const UpdateTask = ({ task, onTaskUpdated, onCancel }) => {
             );
 
             setSuccess("Tâche mise à jour avec succès !");
-            onTaskUpdated(response.data); // Callback pour mettre à jour la tâche dans le parent
+            onTaskUpdated(response.data);
         } catch (err) {
             setError("Erreur lors de la mise à jour de la tâche. Vérifiez votre connexion.");
         }
     };
 
     return (
-        <div className="bg-white/80 shadow-lg rounded-lg p-5 max-w-md mx-auto mb-5">
+        <div className="bg-white/80 shadow-lg rounded-lg animate__animated animate__slideInUp p-5 w-full mx-auto mb-5">
             <h2 className="text-2xl font-bold mb-4">Modifier une tâche</h2>
             {error && <p className="text-red-500">{error}</p>}
             {success && <p className="text-green-500">{success}</p>}

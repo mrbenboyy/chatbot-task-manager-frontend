@@ -1,18 +1,17 @@
 import React from 'react';
-import { FaPlus, FaTasks, FaBell, FaChartBar } from 'react-icons/fa'; // Import des icônes
+import { FaPlus, FaTasks, FaBell, FaChartBar } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import RecentNews from './RecentNews'; // Import du composant "Recent News"
+import RecentNews from './RecentNews';
 
 function Home() {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token'); // Vérifie si l'utilisateur est connecté
+  const token = localStorage.getItem('token');
 
-  // Fonction pour gérer le clic sur "Commencez dès maintenant"
   const handleStartNow = () => {
     if (token) {
-      navigate('/dashboard'); // Redirige vers le tableau de bord si l'utilisateur est connecté
+      navigate('/dashboard');
     } else {
-      navigate('/register'); // Sinon, redirige vers la page d'inscription
+      navigate('/register');
     }
   };
 

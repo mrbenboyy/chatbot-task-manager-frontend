@@ -99,7 +99,6 @@ const AboutUs = () => {
             </div>
         </div>
 
-        {/* Background pattern - léger ajout de texture */}
         <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-b from-purple-600 to-transparent opacity-30 rounded-full z-0"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-t from-teal-400 to-transparent opacity-30 rounded-full z-0"></div>
     </div>

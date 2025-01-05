@@ -11,10 +11,7 @@ import {
   FaSearch,
   FaFilter,
   FaCalendarAlt,
-  FaFlag,
-  FaCheckCircle,
-  FaEdit,
-  FaTrash,
+  FaFlag
 } from "react-icons/fa";
 import ChatBot from "./ChatBot";
 
@@ -150,7 +147,7 @@ const Dashboard = () => {
       />
 
       {/* Barre de recherche et filtrage */}
-      <div className="bg-white shadow-lg p-6 rounded-xl mb-6 flex flex-wrap gap-4">
+      <div className="bg-white/80 shadow-lg p-6 rounded-xl mb-6 flex flex-wrap gap-2">
         <div className="relative flex-grow">
           <FaSearch className="absolute left-3 top-3 text-gray-400" />
           <input
@@ -229,93 +226,179 @@ const Dashboard = () => {
 
       {/* Liste des tâches */}
       {tasks.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4">
-          {tasks
-            .filter((task) => {
-              if (filterPriority && task.priority !== filterPriority) return false;
-              if (filterDate && task.dueDate.split("T")[0] !== filterDate) return false;
-              if (searchTitle && !task.title.toLowerCase().includes(searchTitle.toLowerCase()))
-                return false;
-              return true;
-            })
-            .map((task) => (
-              <motion.div
-                key={task._id}
-                className={`relative bg-white p-6 rounded-xl shadow-xl transform transition-transform hover:scale-105 duration-300 border-l-8 ${task.status === "Completed"
-                    ? "border-green-500"
-                    : task.status === "Ongoing"
-                      ? "border-yellow-500"
-                      : "border-blue-500"
-                  }`}
-                variants={taskVariants}
-                initial="rest"
-                whileHover="hover"
-              >
-                {/* Badge pour le statut */}
-                {task.status === "Completed" && (
-                  <div className="absolute top-3 right-3 bg-green-500 text-white text-xs rounded-full px-3 py-1">
-                    <span className="font-semibold">Terminé</span>
-                  </div>
-                )}
-
-                {task.status === "Ongoing" && (
-                  <div className="absolute top-3 right-3 bg-yellow-500 text-white text-xs rounded-full px-3 py-1">
-                    <span className="font-semibold">En Cours</span>
-                  </div>
-                )}
-
-                {task.status === "Pending" && (
-                  <div className="absolute top-3 right-3 bg-blue-500 text-white text-xs rounded-full px-3 py-1">
-                    <span className="font-semibold">En Attente</span>
-                  </div>
-                )}
-
-                {/* Titre de la tâche */}
-                <h2 className="text-xl font-semibold text-gray-800 mb-3 truncate">{task.title}</h2>
-
-                {/* Description */}
-                <p className="text-sm text-gray-600 mb-3">{task.description || "Aucune description."}</p>
-
-                {/* Détails de la tâche */}
-                <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
-                  <div className="flex items-center gap-2">
-                    <FaCalendarAlt className="text-gray-500" />
-                    <span>{new Date(task.dueDate).toLocaleDateString()}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FaFlag
-                      className={`${task.priority === "High"
-                          ? "text-red-500"
-                          : task.priority === "Medium"
-                            ? "text-yellow-500"
-                            : "text-green-500"
-                        }`}
-                    />
-                    <span className="capitalize">{task.priority}</span>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-4 justify-between mt-4">
-                  <button
-                    className="bg-indigo-600 text-white py-2 px-5 rounded-full hover:bg-indigo-700 transition-all"
-                    onClick={() => {
-                      setShowAddTaskForm(false);
-                      setTaskToEdit(task);
-                    }}
+        <div className="grid grid-cols-1 sm:grid-cols-2 bg-gradient-to-b from-white/80 via-gray-100 to-gray-200 rounded-lg lg:grid-cols-3 xl:grid-cols-3 gap-8 p-4">
+          {/* Catégorie En Attente */}
+          <div>
+            <h2 className="font-semibold text-xl mb-4 text-blue-600">En Attente</h2>
+            <div className="space-y-4">
+              {tasks
+                .filter((task) => task.status === "Pending")
+                .map((task) => (
+                  <motion.div
+                    key={task._id}
+                    className={`relative bg-white p-6 rounded-xl shadow-xl border-l-8 border-blue-500`}
+                    variants={taskVariants}
+                    initial="rest"
+                    whileHover="hover"
                   >
-                    Modifier
-                  </button>
-                  <button
-                    className="bg-red-600 text-white py-2 px-5 rounded-full hover:bg-red-700 transition-all"
-                    onClick={() => handleDelete(task._id)}
+                    {/* Contenu de la tâche */}
+                    <h2 className="text-xl font-semibold text-gray-800 mb-3">{task.title}</h2>
+                    <p className="text-sm text-gray-600 mb-3">{task.description || "Aucune description."}</p>
+                    <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
+                      <div className="flex items-center gap-2">
+                        <FaCalendarAlt className="text-gray-500" />
+                        <span>{new Date(task.dueDate).toLocaleDateString()}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <FaFlag
+                          className={`${task.priority === "High"
+                            ? "text-red-500"
+                            : task.priority === "Medium"
+                              ? "text-yellow-500"
+                              : "text-green-500"
+                            }`}
+                        />
+                        <span className="capitalize">{task.priority}</span>
+                      </div>
+                    </div>
+                    {/* Actions */}
+                    <div className="flex gap-4 justify-between mt-4">
+                      <button
+                        className="bg-indigo-600 text-white py-2 px-5 rounded-full hover:bg-indigo-700 transition-all"
+                        onClick={() => {
+                          setShowAddTaskForm(false);
+                          setTaskToEdit(task);
+                        }}
+                      >
+                        Modifier
+                      </button>
+                      <button
+                        className="bg-red-600 text-white py-2 px-5 rounded-full hover:bg-red-700 transition-all"
+                        onClick={() => handleDelete(task._id)}
+                      >
+                        Supprimer
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+            </div>
+          </div>
+
+          {/* Catégorie En Cours */}
+          <div>
+            <h2 className="font-semibold text-xl mb-4 text-yellow-600">En Cours</h2>
+            <div className="space-y-4">
+              {tasks
+                .filter((task) => task.status === "Ongoing")
+                .map((task) => (
+                  <motion.div
+                    key={task._id}
+                    className={`relative bg-white p-6 rounded-xl shadow-xl border-l-8 border-yellow-500`}
+                    variants={taskVariants}
+                    initial="rest"
+                    whileHover="hover"
                   >
-                    Supprimer
-                  </button>
-                </div>
-              </motion.div>
-            ))}
+                    {/* Contenu de la tâche */}
+                    <h2 className="text-xl font-semibold text-gray-800 mb-3">{task.title}</h2>
+                    <p className="text-sm text-gray-600 mb-3">{task.description || "Aucune description."}</p>
+                    <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
+                      <div className="flex items-center gap-2">
+                        <FaCalendarAlt className="text-gray-500" />
+                        <span>{new Date(task.dueDate).toLocaleDateString()}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <FaFlag
+                          className={`${task.priority === "High"
+                            ? "text-red-500"
+                            : task.priority === "Medium"
+                              ? "text-yellow-500"
+                              : "text-green-500"
+                            }`}
+                        />
+                        <span className="capitalize">{task.priority}</span>
+                      </div>
+                    </div>
+                    {/* Actions */}
+                    <div className="flex gap-4 justify-between mt-4">
+                      <button
+                        className="bg-indigo-600 text-white py-2 px-5 rounded-full hover:bg-indigo-700 transition-all"
+                        onClick={() => {
+                          setShowAddTaskForm(false);
+                          setTaskToEdit(task);
+                        }}
+                      >
+                        Modifier
+                      </button>
+                      <button
+                        className="bg-red-600 text-white py-2 px-5 rounded-full hover:bg-red-700 transition-all"
+                        onClick={() => handleDelete(task._id)}
+                      >
+                        Supprimer
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+            </div>
+          </div>
+
+          {/* Catégorie Terminées */}
+          <div>
+            <h2 className="font-semibold text-xl mb-4 text-green-600">Terminées</h2>
+            <div className="space-y-4">
+              {tasks
+                .filter((task) => task.status === "Completed")
+                .map((task) => (
+                  <motion.div
+                    key={task._id}
+                    className={`relative bg-white p-6 rounded-xl shadow-xl border-l-8 border-green-500`}
+                    variants={taskVariants}
+                    initial="rest"
+                    whileHover="hover"
+                  >
+                    {/* Contenu de la tâche */}
+                    <h2 className="text-xl font-semibold text-gray-800 mb-3">{task.title}</h2>
+                    <p className="text-sm text-gray-600 mb-3">{task.description || "Aucune description."}</p>
+                    <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
+                      <div className="flex items-center gap-2">
+                        <FaCalendarAlt className="text-gray-500" />
+                        <span>{new Date(task.dueDate).toLocaleDateString()}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <FaFlag
+                          className={`${task.priority === "High"
+                            ? "text-red-500"
+                            : task.priority === "Medium"
+                              ? "text-yellow-500"
+                              : "text-green-500"
+                            }`}
+                        />
+                        <span className="capitalize">{task.priority}</span>
+                      </div>
+                    </div>
+                    {/* Actions */}
+                    <div className="flex gap-4 justify-between mt-4">
+                      <button
+                        className="bg-indigo-600 text-white py-2 px-5 rounded-full hover:bg-indigo-700 transition-all"
+                        onClick={() => {
+                          setShowAddTaskForm(false);
+                          setTaskToEdit(task);
+                        }}
+                      >
+                        Modifier
+                      </button>
+                      <button
+                        className="bg-red-600 text-white py-2 px-5 rounded-full hover:bg-red-700 transition-all"
+                        onClick={() => handleDelete(task._id)}
+                      >
+                        Supprimer
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+            </div>
+          </div>
         </div>
+
       )}
 
       {tasks.length > 0 && <TaskStats tasks={tasks} />}

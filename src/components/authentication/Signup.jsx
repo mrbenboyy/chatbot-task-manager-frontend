@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaUserAlt, FaEnvelope, FaLock, FaUpload } from 'react-icons/fa';
@@ -15,7 +15,6 @@ function Signup() {
   const [loading, setLoading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
-  // Gérer les changements des champs de texte
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -24,7 +23,6 @@ function Signup() {
     });
   };
 
-  // Gérer le changement pour le fichier image
   const handleFileChange = (e) => {
     setFormData({
       ...formData,
@@ -33,7 +31,6 @@ function Signup() {
     setUploadSuccess(false);
   };
 
-  // Gérer la soumission du formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -63,9 +60,13 @@ function Signup() {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <section className="bg-gradient-to-r from-indigo-600 to-blue-800 pt-40 pb-32">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <section className="bg-gradient-to-r from-indigo-600 to-blue-800 pt-32 pb-32">
+      <div className="flex flex-col items-center justify-center animate__animated animate__zoomIn px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white shadow-xl rounded-xl p-8 max-w-lg">
           <h1 className="text-3xl font-semibold text-center text-gray-900 mb-8">
             Créer un compte
@@ -164,7 +165,6 @@ function Signup() {
               {loading ? 'Création du compte...' : 'Créer un compte'}
             </button>
 
-            {/* Login Link */}
             <p className="text-sm font-light text-center text-gray-600">
               Vous avez déjà un compte ?{' '}
               <Link to="/login" className="font-medium text-blue-600 hover:underline">

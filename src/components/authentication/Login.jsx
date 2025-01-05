@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
@@ -14,16 +14,20 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5050/api/users/login', { email, password });
-      localStorage.setItem('token', response.data.token); // Store token in localStorage (or cookies)
-      navigate('/dashboard'); // Redirect to the dashboard (or any other route)
+      localStorage.setItem('token', response.data.token);
+      navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Une erreur est survenue'); // Display backend error message
+      setError(err.response?.data?.message || 'Une erreur est survenue');
     }
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <section className="bg-gradient-to-r from-indigo-600 to-blue-800 pt-10">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div className="flex flex-col items-center animate__animated animate__zoomIn justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white shadow-xl rounded-xl p-8 max-w-md">
           <h1 className="text-3xl font-semibold text-center text-gray-900 mb-8">
             Connectez-vous à votre compte
@@ -77,7 +81,6 @@ function Login() {
               Se connecter
             </button>
 
-            {/* Signup Link */}
             <p className="text-sm font-light text-center text-gray-600">
               Vous n’avez pas encore de compte ?{' '}
               <Link to="/register" className="font-medium text-blue-600 hover:underline">

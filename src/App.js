@@ -11,6 +11,7 @@ import Profile from "./components/Profile";
 import Footer from "./components/Footer";
 import AboutUs from "./components/AboutUS";
 import ContactUs from "./components/ContactUs";
+import 'animate.css';
 
 function App() {
   return (

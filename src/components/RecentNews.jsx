@@ -15,7 +15,7 @@ const RecentNews = () => {
                     {
                         params: {
                             country: 'us', // Country for news (e.g., 'fr' for France)
-                            apiKey: '1a6000526db741de9c8de377cc6072d5', // Replace with your NewsAPI key
+                            apiKey: '1a6000526db741de9c8de377cc6072d5',
                             pageSize: 15, // Limit number of news items
                         },
                     }
@@ -25,7 +25,7 @@ const RecentNews = () => {
                 const filteredArticles = response.data.articles.filter(
                     (article) => !article.title.includes('[Removed]')
                 );
-                setNews(filteredArticles); // Update state with filtered articles
+                setNews(filteredArticles);
             } catch (err) {
                 setError('Erreur lors du chargement des actualités.');
             } finally {

@@ -5,7 +5,6 @@ import {
   FaColumns,
   FaUser,
   FaTasks,
-  FaChartBar,
   FaChevronDown,
   FaSignOutAlt,
   FaInfoCircle,
