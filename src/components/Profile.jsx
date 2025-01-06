@@ -30,7 +30,7 @@ const Profile = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            const response = await axios.get("http://localhost:5050/api/users/me", config);
+            const response = await axios.get("https://chatbot-task-manager-backend.onrender.com/api/users/me", config);
             setUser(response.data);
         } catch (err) {
             toast.error("Erreur lors de la récupération des informations utilisateur.");
@@ -70,7 +70,7 @@ const Profile = () => {
             }
 
             const response = await axios.put(
-                "http://localhost:5050/api/users/update",
+                "https://chatbot-task-manager-backend.onrender.com/api/users/update",
                 updatedData,
                 config
             );
@@ -108,7 +108,7 @@ const Profile = () => {
             formData.append("profileImage", newProfileImage);
 
             const response = await axios.put(
-                "http://localhost:5050/api/users/update",
+                "https://chatbot-task-manager-backend.onrender.com/api/users/update",
                 formData,
                 config
             );
@@ -151,7 +151,7 @@ const Profile = () => {
                 <div className="flex flex-col items-center mb-8">
                     <div className="relative">
                         <img
-                            src={previewImage || `http://localhost:5050${user.profileImage}`}
+                            src={previewImage || `https://chatbot-task-manager-backend.onrender.com${user.profileImage}`}
                             alt="Profile"
                             className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-2xl"
                         />
