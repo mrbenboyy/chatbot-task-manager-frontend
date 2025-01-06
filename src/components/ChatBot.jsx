@@ -41,33 +41,39 @@ const ChatBot = ({ onTaskAdded }) => {
         headers: { Authorization: `Bearer ${token}` },
       };
 
+      // Envoyer le prompt à l'API
       const response = await axios.post(
         "http://localhost:5050/api/chatbot",
-        { message: userInput },
+        { prompt: userInput },
         config
       );
 
-      // Ajout du message du bot
-      const botMessage = { text: response.data.botResponse, isBot: true };
+      // Récupérer la réponse du bot
+      const botMessage = {
+        text: response.data.message || "Pas de réponse disponible.",
+        isBot: true
+      };
       setMessages((prev) => [...prev, botMessage]);
 
-      // Vérifiez la réponse pour déterminer si une tâche a été ajoutée, modifiée ou supprimée
+      // Synchroniser les tâches si une action est détectée
       if (
-        response.data.botResponse.startsWith("Tâche ajoutée") ||
-        response.data.botResponse.startsWith("Tâche modifiée") ||
-        response.data.botResponse.startsWith("Tâche supprimée") ||
-        response.data.botResponse.startsWith("Tâche introuvable") ||
-        response.data.botResponse.includes("supprimées")
+        response.data.message.startsWith("Tâche ajoutée") ||
+        response.data.message.startsWith("Tâche mise à jour") ||
+        response.data.message.startsWith("Tâche supprimée") ||
+        response.data.message.startsWith("Tâche créée avec succès.") ||
+        response.data.message.includes("supprimées")
       ) {
         setTimeout(() => {
-          onTaskAdded(); // Appeler fetchTasks pour synchroniser les tâches
-        }, 500); // Optionnel : délai pour afficher le message avant la mise à jour
+          onTaskAdded(); // Synchroniser les tâches
+        }, 500); // Ajouter un léger délai pour afficher le message avant la mise à jour
       }
     } catch (error) {
-      const botError = { text: "Désolé, une erreur est survenue. Veuillez réessayer.", isBot: true };
+      const errorMessage = error.response?.data?.message || "Erreur de communication avec le serveur.";
+      const botError = { text: errorMessage, isBot: true };
       setMessages((prev) => [...prev, botError]);
     }
   };
+
 
   const handleClose = () => {
     setIsOpen(false);
@@ -89,21 +95,30 @@ const ChatBot = ({ onTaskAdded }) => {
           {/* Header du chatbot */}
           <div className="flex justify-between items-center bg-gray-900 text-white px-4 py-2 rounded-t-lg">
             <h2 className="text-lg font-semibold">ChatBot</h2>
+            <button
+              onClick={() => {
+                setMessages([{ text: "Bonjour ! Je suis votre assistant. Comment puis-je vous aider ?", isBot: true }]);
+                localStorage.removeItem("chatbotMessages");
+              }}
+              className="hover:text-gray-200"
+            >
+              Réinitialiser
+            </button>
             <button onClick={handleClose} className="hover:text-gray-200">
               <FaTimes size={20} />
             </button>
           </div>
+
 
           {/* Zone de discussion */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`p-3 mb-2 rounded-lg ${
-                  msg.isBot
-                    ? "bg-gray-200 text-gray-700"
-                    : "bg-blue-500 text-white"
-                }`}
+                className={`p-3 mb-2 rounded-lg ${msg.isBot
+                  ? "bg-gray-200 text-gray-700"
+                  : "bg-blue-500 text-white"
+                  }`}
                 style={{
                   textAlign: msg.isBot ? "left" : "right", // Alignement du texte
                   maxWidth: "80%", // Limiter la largeur des messages
