@@ -43,7 +43,7 @@ const ChatBot = ({ onTaskAdded }) => {
 
       // Envoyer le prompt à l'API
       const response = await axios.post(
-        "http://localhost:5050/api/chatbot",
+        "https://chatbot-task-manager-backend.onrender.com/api/chatbot",
         { prompt: userInput },
         config
       );
