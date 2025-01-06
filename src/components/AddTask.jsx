@@ -35,7 +35,7 @@ const AddTask = ({ onTaskAdded }) => {
             };
 
             const response = await axios.post(
-                "http://localhost:5050/api/tasks",
+                "https://chatbot-task-manager-backend.onrender.com/api/tasks",
                 taskData,
                 config
             );
