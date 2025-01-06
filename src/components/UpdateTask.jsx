@@ -32,7 +32,7 @@ const UpdateTask = ({ task, onTaskUpdated, onCancel }) => {
             };
 
             const response = await axios.put(
-                `http://localhost:5050/api/tasks/${task._id}`,
+                `https://chatbot-task-manager-backend.onrender.com/api/tasks/${task._id}`,
                 updatedTaskData,
                 config
             );
