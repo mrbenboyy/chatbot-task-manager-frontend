@@ -17,8 +17,11 @@ const Profile = () => {
         password: false,
         profileImage: false,
     });
-    const [newPassword, setNewPassword] = useState("");
-    const [updatedField, setUpdatedField] = useState({});
+    const [updatedField, setUpdatedField] = useState({
+        name: "",
+        email: "",
+        password: "",
+    });
     const [newProfileImage, setNewProfileImage] = useState(null);
     const [previewImage, setPreviewImage] = useState("");
 
@@ -30,7 +33,7 @@ const Profile = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            const response = await axios.get("https://chatbot-task-manager-backend.onrender.com/api/users/me", config);
+            const response = await axios.get("https://chatbot-task-manager-backend.onrender.com//api/users/me", config);
             setUser(response.data);
         } catch (err) {
             toast.error("Erreur lors de la récupération des informations utilisateur.");
@@ -38,17 +41,17 @@ const Profile = () => {
     };
 
     const handleEdit = (field) => {
-        setIsEditing({ ...isEditing, [field]: true });
+        setIsEditing((prevState) => ({ ...prevState, [field]: true }));
     };
 
     const handleCancel = (field) => {
-        setIsEditing({ ...isEditing, [field]: false });
-        setUpdatedField({});
-        setNewPassword("");
-        setNewProfileImage(null);
+        setIsEditing((prevState) => ({ ...prevState, [field]: false }));
+        setUpdatedField((prev) => ({ ...prev, [field]: user[field] })); // Reset to original value
     };
 
-    const handleSave = async (field) => {
+    const handleSave = async (field, e) => {
+        e.preventDefault();
+
         try {
             const token = localStorage.getItem("token");
             const config = {
@@ -57,30 +60,19 @@ const Profile = () => {
                 },
             };
 
-            let updatedData;
-            if (field === "password") {
-                updatedData = { password: newPassword };
-            } else if (field === "profileImage") {
-                const formData = new FormData();
-                formData.append("profileImage", newProfileImage);
-                updatedData = formData;
-                config.headers["Content-Type"] = "multipart/form-data";
-            } else {
-                updatedData = { [field]: updatedField[field] };
-            }
+            const updatedData = {
+                [field]: updatedField[field], // Only update the field that was edited
+            };
 
             const response = await axios.put(
-                "https://chatbot-task-manager-backend.onrender.com/api/users/update",
+                "https://chatbot-task-manager-backend.onrender.com//api/users/update",
                 updatedData,
                 config
             );
 
             setUser(response.data);
-            toast.success(`${field === "password" ? "Mot de passe" : field} mis à jour avec succès.`);
-            setIsEditing({ ...isEditing, [field]: false });
-            setUpdatedField({});
-            setNewPassword("");
-            setNewProfileImage(null);
+            toast.success("Informations mises à jour avec succès.");
+            setIsEditing((prevState) => ({ ...prevState, [field]: false })); // Close the input after save
         } catch (err) {
             toast.error("Erreur lors de la mise à jour des informations.");
         }
@@ -94,7 +86,13 @@ const Profile = () => {
         }
     };
 
+    const handleCancelImage = () => {
+        setNewProfileImage(null);
+        setPreviewImage("");
+    };
+
     const handleSaveProfileImage = async () => {
+        if (!newProfileImage) return;
         try {
             const token = localStorage.getItem("token");
             const config = {
@@ -108,7 +106,7 @@ const Profile = () => {
             formData.append("profileImage", newProfileImage);
 
             const response = await axios.put(
-                "https://chatbot-task-manager-backend.onrender.com/api/users/update",
+                "https://chatbot-task-manager-backend.onrender.com//api/users/update",
                 formData,
                 config
             );
@@ -120,11 +118,6 @@ const Profile = () => {
         } catch (err) {
             toast.error("Erreur lors de la mise à jour de la photo de profil.");
         }
-    };
-
-    const handleCancelImage = () => {
-        setNewProfileImage(null);
-        setPreviewImage("");
     };
 
     useEffect(() => {
@@ -147,98 +140,108 @@ const Profile = () => {
                     theme="colored"
                 />
 
-                {/* Photo de profil */}
-                <div className="flex flex-col items-center mb-8">
-                    <div className="relative">
-                        <img
-                            src={previewImage || `https://chatbot-task-manager-backend.onrender.com${user.profileImage}`}
-                            alt="Profile"
-                            className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-2xl"
-                        />
-                        <input
-                            type="file"
-                            id="profileImageInput"
-                            className="hidden"
-                            onChange={handleFileChange}
-                            accept="image/*"
-                        />
-                        <button
-                            onClick={() => document.getElementById("profileImageInput").click()}
-                            className="absolute bottom-0 right-0 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition-all duration-200"
-                        >
-                            <MdPhotoCamera className="text-2xl" />
-                        </button>
-                    </div>
-                    {newProfileImage && (
-                        <div className="flex gap-6 mt-6">
+                <form className="space-y-6">
+                    {/* Photo de profil */}
+                    <div className="flex flex-col items-center mb-8">
+                        <div className="relative">
+                            <img
+                                src={previewImage || `https://chatbot-task-manager-backend.onrender.com/${user.profileImage}`}
+                                alt="Profile"
+                                className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-2xl"
+                            />
+                            <input
+                                type="file"
+                                id="profileImageInput"
+                                className="hidden"
+                                onChange={handleFileChange}
+                                accept="image/*"
+                            />
                             <button
-                                onClick={handleSaveProfileImage}
-                                className="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-all duration-200"
+                                onClick={() => document.getElementById("profileImageInput").click()}
+                                className="absolute bottom-0 right-0 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition-all duration-200"
                             >
-                                <FaSave />
-                            </button>
-                            <button
-                                onClick={handleCancelImage}
-                                className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-all duration-200"
-                            >
-                                <FaTimes />
+                                <MdPhotoCamera className="text-2xl" />
                             </button>
                         </div>
-                    )}
-                </div>
-
-                {/* Informations personnelles */}
-                {[
-                    { label: "Nom complet", value: user.name, icon: <FaUser className="text-gray-600" /> },
-                    { label: "Email", value: user.email, icon: <FaEnvelope className="text-gray-600" /> },
-                    { label: "Mot de passe", value: "********", icon: <FaLock className="text-gray-600" /> },
-                ].map((field, idx) => (
-                    <div key={idx} className="flex items-center justify-between mb-6">
-                        <div className="flex items-center gap-3">
-                            {field.icon}
-                            <h2 className="text-xl font-medium text-gray-700">{field.label} :</h2>
-                        </div>
-                        <div className="flex-1 text-right">
-                            {isEditing[field.label.toLowerCase().replace(" ", "")] ? (
-                                <input
-                                    type={field.label === "Mot de passe" ? "password" : "text"}
-                                    value={updatedField[field.label.toLowerCase().replace(" ", "")] || field.value}
-                                    onChange={(e) =>
-                                        setUpdatedField({ ...updatedField, [field.label.toLowerCase().replace(" ", "")]: e.target.value })
-                                    }
-                                    className="mt-2 w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                />
-                            ) : (
-                                <p className="text-gray-600">{field.value}</p>
-                            )}
-                        </div>
-                        <div className="ml-4">
-                            {isEditing[field.label.toLowerCase().replace(" ", "")] ? (
-                                <div className="flex gap-4">
-                                    <button
-                                        onClick={() => handleSave(field.label.toLowerCase().replace(" ", ""))}
-                                        className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-all duration-200"
-                                    >
-                                        <FaSave />
-                                    </button>
-                                    <button
-                                        onClick={() => handleCancel(field.label.toLowerCase().replace(" ", ""))}
-                                        className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-all duration-200"
-                                    >
-                                        <FaTimes />
-                                    </button>
-                                </div>
-                            ) : (
+                        {newProfileImage && (
+                            <div className="flex gap-6 mt-6">
                                 <button
-                                    onClick={() => handleEdit(field.label.toLowerCase().replace(" ", ""))}
-                                    className="text-indigo-600 hover:text-indigo-800 flex items-center gap-2"
+                                    type="button"
+                                    onClick={handleSaveProfileImage}
+                                    className="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-all duration-200"
                                 >
-                                    <FaEdit />
+                                    <FaSave />
                                 </button>
-                            )}
-                        </div>
+                                <button
+                                    type="button"
+                                    onClick={handleCancelImage}
+                                    className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-all duration-200"
+                                >
+                                    <FaTimes />
+                                </button>
+                            </div>
+                        )}
                     </div>
-                ))}
+
+                    {/* Informations personnelles */}
+                    {[
+                        { label: "Nom complet", value: user.name, icon: <FaUser className="text-gray-600" />, field: "name" },
+                        { label: "Email", value: user.email, icon: <FaEnvelope className="text-gray-600" />, field: "email" },
+                        { label: "Mot de passe", value: "", icon: <FaLock className="text-gray-600" />, field: "password" },
+                    ].map((field, idx) => (
+                        <div key={idx} className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                {field.icon}
+                                <h2 className="text-xl font-medium text-gray-700">{field.label} :</h2>
+                            </div>
+                            <div className="flex-1 text-right">
+                                {isEditing[field.field] ? (
+                                    <input
+                                        type={field.field === "password" ? "password" : "text"}
+                                        value={updatedField[field.field] || field.value}
+                                        onChange={(e) =>
+                                            setUpdatedField((prev) => ({
+                                                ...prev,
+                                                [field.field]: e.target.value,
+                                            }))
+                                        }
+                                        className="mt-2 w-full border-2 border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    />
+                                ) : (
+                                    <p className="text-gray-600">{field.value}</p>
+                                )}
+                            </div>
+                            <div className="ml-4">
+                                {isEditing[field.field] ? (
+                                    <div className="flex gap-4">
+                                        <button
+                                            type="button"
+                                            onClick={(e) => handleSave(field.field, e)}
+                                            className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-all duration-200"
+                                        >
+                                            <FaSave />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleCancel(field.field)}
+                                            className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-all duration-200"
+                                        >
+                                            <FaTimes />
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick={() => handleEdit(field.field)}
+                                        className="text-indigo-600 hover:text-indigo-800 flex items-center gap-2"
+                                    >
+                                        <FaEdit />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </form>
             </div>
         </div>
     );
