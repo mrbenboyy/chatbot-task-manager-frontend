@@ -34,7 +34,7 @@ const Dashboard = () => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const response = await axios.get("http://localhost:5050/api/tasks", config);
+      const response = await axios.get("https://chatbot-task-manager-backend.onrender.com/api/tasks", config);
       setTasks(response.data);
 
       const urgentTasks = response.data.filter((task) => {
@@ -85,7 +85,7 @@ const Dashboard = () => {
           Authorization: `Bearer ${token}`,
         },
       };
-      await axios.delete(`http://localhost:5050/api/tasks/${id}`, config);
+      await axios.delete(`https://chatbot-task-manager-backend.onrender.com/api/tasks/${id}`, config);
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
       toast.success("Tâche supprimée avec succès !");
     } catch (err) {
@@ -112,7 +112,7 @@ const Dashboard = () => {
         },
       };
 
-      const response = await axios.delete("http://localhost:5050/api/tasks/completed", config);
+      const response = await axios.delete("https://chatbot-task-manager-backend.onrender.com/api/tasks/completed", config);
       setTasks((prevTasks) => prevTasks.filter((task) => task.status !== "Completed"));
       toast.success(response.data.message);
     } catch (err) {
