@@ -46,7 +46,7 @@ function Signup() {
         formDataToSend.append('profileImage', formData.profileImage);
       }
 
-      const response = await axios.post('http://localhost:5050/api/users/register', formDataToSend, {
+      const response = await axios.post('https://chatbot-task-manager-backend.onrender.com/api/users/register', formDataToSend, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
