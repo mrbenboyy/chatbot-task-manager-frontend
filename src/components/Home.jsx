@@ -30,7 +30,6 @@ function Home() {
       {/* Contenu basé sur l'état de connexion */}
       <section className="flex-grow bg-white pb-10 pt-5 px-6">
         <div className="max-w-5xl mx-auto text-center">
-            // Afficher le guide pour les nouveaux utilisateurs
             <>
               <h2 className="text-3xl font-semibold text-gray-800 mb-6">
                 Comment ça marche ?
