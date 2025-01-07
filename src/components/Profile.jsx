@@ -141,48 +141,49 @@ const Profile = () => {
                 />
 
                 {/* Photo de profil */}
-                    <div className="flex flex-col items-center mb-8">
-                        <div className="relative">
-                            <img
-                                src={previewImage || `https://chatbot-task-manager-backend.onrender.com/${user.profileImage}`}
-                                alt="Profile"
-                                className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-2xl"
-                            />
-                            <input
-                                type="file"
-                                id="profileImageInput"
-                                className="hidden"
-                                onChange={handleFileChange}
-                                accept="image/*"
-                            />
+                <div className="flex flex-col items-center mb-8">
+                    <div className="relative">
+                        <img
+                            src={previewImage || `https://chatbot-task-manager-backend.onrender.com${user.profileImage}`}
+                            alt="Profile"
+                            className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-2xl"
+                        />
+                        <input
+                            type="file"
+                            id="profileImageInput"
+                            className="hidden"
+                            onChange={handleFileChange}
+                            accept="image/*"
+                        />
+                        <button
+                            onClick={() => document.getElementById("profileImageInput").click()}
+                            className="absolute bottom-0 right-0 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition-all duration-200"
+                        >
+                            <MdPhotoCamera className="text-2xl" />
+                        </button>
+                    </div>
+                    {newProfileImage && (
+                        <div className="flex gap-6 mt-6">
                             <button
-                                onClick={() => document.getElementById("profileImageInput").click()}
-                                className="absolute bottom-0 right-0 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition-all duration-200"
+                                type="button"
+                                onClick={handleSaveProfileImage}
+                                className="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-all duration-200"
                             >
-                                <MdPhotoCamera className="text-2xl" />
+                                <FaSave />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleCancelImage}
+                                className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-all duration-200"
+                            >
+                                <FaTimes />
                             </button>
                         </div>
-                        {newProfileImage && (
-                            <div className="flex gap-6 mt-6">
-                                <button
-                                    type="button"
-                                    onClick={handleSaveProfileImage}
-                                    className="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-all duration-200"
-                                >
-                                    <FaSave />
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={handleCancelImage}
-                                    className="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-all duration-200"
-                                >
-                                    <FaTimes />
-                                </button>
-                            </div>
-                        )}
-                    </div>
+                    )}
+                </div>
 
                 <form className="space-y-6">
+
                     {/* Informations personnelles */}
                     {[
                         { label: "Nom complet", value: user.name, icon: <FaUser className="text-gray-600" />, field: "name" },
