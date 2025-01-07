@@ -140,8 +140,7 @@ const Profile = () => {
                     theme="colored"
                 />
 
-                <form className="space-y-6">
-                    {/* Photo de profil */}
+                {/* Photo de profil */}
                     <div className="flex flex-col items-center mb-8">
                         <div className="relative">
                             <img
@@ -183,6 +182,7 @@ const Profile = () => {
                         )}
                     </div>
 
+                <form className="space-y-6">
                     {/* Informations personnelles */}
                     {[
                         { label: "Nom complet", value: user.name, icon: <FaUser className="text-gray-600" />, field: "name" },
